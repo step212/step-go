@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package minio.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "step/api/minio/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.minio.v1";
+option java_outer_classname = "StepProtoV1";
+
+service Minio {
+  rpc GetUploadPreSignedUrl (GetUploadPreSignedUrlRequest) returns (GetUploadPreSignedUrlReply) {
+    option (google.api.http) = {
+      get: "/minio/presigned/upload_url"
+    };
+  }
+
+  rpc GetDownloadPreSignedUrl (GetDownloadPreSignedUrlRequest) returns (GetDownloadPreSignedUrlReply) {
+    option (google.api.http) = {
+      get: "/minio/presigned/download_url"
+    };
+  }
+}
+
+message GetUploadPreSignedUrlRequest {
+  string upload_key = 1 [json_name = "upload_key"];
+}
+
+message GetUploadPreSignedUrlReply {
+  string url = 1;
+}
+
+message GetDownloadPreSignedUrlRequest {
+  string download_key = 1 [json_name = "download_key"];
+}
+
+message GetDownloadPreSignedUrlReply {
+  string url = 1;
+}
+
+

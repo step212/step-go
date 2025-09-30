@@ -1,0 +1,29 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 10s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 10s
+data:
+  database:
+    driver: mysql
+    source: name:password@tcp(domain:3306)/dbname?parseTime=true&loc=Local&charset=utf8mb4
+    max_open_conns: 100
+    max_idle_conns: 10
+    max_conn_life_seconds: 3600
+  redis:
+    addr: domain:6379
+    password: password
+    asynq_db: 0
+    db: 10
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+  minio:
+    endpoint: "https://domain:10000"
+    endpoint_remote: "https://domain:10000"
+    access_key_id: "access_key_id"
+    secret_access_key: "secret_access_key"
+    bucket_name: "bucket_name"
+  secret: secret-k
+

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package step.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/wrappers.proto";
+import "openapi/v3/annotations.proto";
+import "step/v1/step.proto";
+
+option go_package = "step/api/step/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.step.v1";
+option java_outer_classname = "StepProtoV1";
+
+service StepNoauthService {
+  rpc GetNoauthStep(GetNoauthStepRequest) returns (GetNoauthStepReply) {
+    option (google.api.http) = {
+      get: "/apis/step-go-noauth/step/{id}"
+    };
+  }
+
+  rpc SetCommentForStep(SetCommentForStepRequest) returns (SetCommentForStepReply) {
+    option (google.api.http) = {
+      post: "/apis/step-go-noauth/step/{id}/comment"
+      body: "*"
+    };
+  }
+
+  rpc Decrypt(DecryptRequest) returns (DecryptReply) {
+    option (google.api.http) = {
+      post: "/apis/step-go-noauth/step/{id}/decrypt"
+      body: "*"
+    };
+  }
+}
+
+message SetCommentForStepRequest {
+  uint64 id = 1;
+  // teacher, parent, friend
+  string type = 2;
+  string comment = 3;
+}
+
+message SetCommentForStepReply {
+  uint64 id = 1;
+}
+
+message GetNoauthStepRequest {
+  uint64 id = 1;
+  string share_to = 2;
+}
+
+message GetNoauthStepReply {
+  string target_title = 1;
+  string target_description = 2;
+  Step step = 3;
+  repeated Step children = 4;
+}
+
+message DecryptRequest {
+  uint64 id = 1;
+  string data = 2;
+}
+
+message DecryptReply {
+  string data = 1;
+}

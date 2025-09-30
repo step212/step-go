@@ -1,0 +1,56 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "step/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+    int32 max_open_conns = 3;
+    int32 max_idle_conns = 4;
+    int32 max_conn_life_seconds = 5;
+  }
+  message Redis {
+    string network = 1;
+    string addr = 2;
+    string password = 3;
+    int32 asynq_db = 4;
+    int32 db = 5;
+    google.protobuf.Duration read_timeout = 6;
+    google.protobuf.Duration write_timeout = 7;
+  }
+  message Minio {
+    string endpoint = 1;
+    string endpoint_remote = 2;
+    string access_key_id = 3;
+    string secret_access_key = 4;
+    string bucket_name = 5;
+  }
+  Database database = 1;
+  Redis redis = 2;
+  Minio minio = 3;
+  string secret = 4;
+}

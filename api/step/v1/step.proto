@@ -1,0 +1,390 @@
+syntax = "proto3";
+
+package step.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+import "openapi/v3/annotations.proto";
+
+option go_package = "step/api/step/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.step.v1";
+option java_outer_classname = "StepProtoV1";
+
+option (openapi.v3.document) = {
+  info: {
+    title: "Step Service API"
+    version: "1.0"
+  }
+  security: [
+    {
+      additional_properties: [
+        {
+          name: "bearerAuth"
+          value: {
+            value: []
+          }
+        }
+      ]
+    }
+  ]
+  components: {
+    security_schemes: {
+      additional_properties: [
+        {
+          name: "bearerAuth"
+          value: {
+            security_scheme: {
+              type: "http"
+              scheme: "bearer"
+              bearer_format: "JWT"
+            }
+          }
+        }
+      ]
+    }
+  }
+};
+
+service StepService {
+  rpc CreateTarget(CreateTargetRequest) returns (CreateTargetReply) {
+    option (google.api.http) = {
+      post: "/target"
+      body: "*"
+    };
+  }
+
+  rpc UpdateTarget(UpdateTargetRequest) returns (UpdateTargetReply) {
+    option (google.api.http) = {
+      put: "/target/{id}"
+      body: "*"
+    };
+  }
+
+  // 获取目标列表
+  rpc GetTargets(GetTargetsRequest) returns (GetTargetsReply) {
+    option (google.api.http) = {
+      get: "/targets"
+    };
+  }
+  
+  // 删除目标下子目标以及目标下的积累
+  rpc DeleteTarget(DeleteTargetRequest) returns (DeleteTargetReply) {
+    option (google.api.http) = {
+      delete: "/target/{id}"
+    };
+  }
+
+  // 完成目标
+  rpc DoneTarget(DoneTargetRequest) returns (DoneTargetReply) {
+    option (google.api.http) = {
+      post: "/target/{id}/done"
+      body: "*"
+    };
+  }
+
+  // 获取目标及目标下的积累
+  rpc GetTarget(GetTargetRequest) returns (GetTargetReply) {
+    option (google.api.http) = {
+      get: "/target/{id}"
+    };
+  }
+
+  // 获取目标树
+  rpc GetTargetTree(GetTargetTreeRequest) returns (GetTargetTreeReply) {
+    option (google.api.http) = {
+      get: "/target/{id}/tree"
+    };
+  }
+
+  // 添加目标积累(for dir)
+  rpc AddTargetDirStep(AddTargetDirStepRequest) returns (AddTargetDirStepReply) {
+    option (google.api.http) = {
+      post: "/target/{id}/dir"
+      body: "*"
+    };
+  }
+
+  // 获取目录类型积累的子积累
+  rpc GetTargetDirStepChildren(GetTargetDirStepChildrenRequest) returns (GetTargetDirStepChildrenReply) {
+    option (google.api.http) = {
+      get: "/step/{id}/dir_children"
+    };
+  }
+
+  // 修改积累
+  rpc UpdateTargetStep(UpdateTargetStepRequest) returns (UpdateTargetStepReply) {
+    option (google.api.http) = {
+      put: "/step/{id}"
+      body: "*"
+    };
+  }
+
+  // 删除积累
+  rpc DeleteTargetStep(DeleteTargetStepRequest) returns (DeleteTargetStepReply) {
+    option (google.api.http) = {
+      delete: "/step/{id}"
+    };
+  }
+
+  rpc Encrypt(EncryptRequest) returns (EncryptReply) {
+    option (google.api.http) = {
+      post: "/step/{id}/encrypt"
+      body: "*"
+    };
+  }
+}
+
+message CreateTargetRequest {
+  string title = 1;
+  string description = 2;
+  string type = 3;
+  uint64 parent_id = 4;
+}
+
+message CreateTargetReply {
+  uint64 id = 1;
+  uint32 layer = 2;
+}
+
+message UpdateTargetRequest {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message UpdateTargetReply {
+  uint64 id = 1;
+}
+
+message DeleteTargetRequest {
+  uint64 id = 1;
+}
+
+message DeleteTargetReply {
+  uint64 id = 1;
+}
+
+message DoneTargetRequest {
+  uint64 id = 1;
+}
+
+message DoneTargetReply {
+  uint64 id = 1;
+}
+
+message GetTargetsRequest {
+  uint64 parent_id = 1;
+}
+
+message Target {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+  string type = 4;
+  int64 created_at = 5;
+  int64 start_at = 6;
+  int64 challenge_at = 7;
+  int64 done_at = 8;
+  uint32 layer = 9;
+  string status = 10;
+  uint64 target_parent = 11;
+  repeated Target children = 12;
+}
+
+message GetTargetsReply {
+  repeated Target targets = 1;
+}
+
+message GetTargetRequest {
+  uint64 id = 1;
+  bool with_steps = 2;
+  uint32 page = 3;
+  uint32 page_size = 4;
+}
+
+message GetTargetReply {
+  Target target = 1;
+  uint64 total = 2;
+  repeated Step steps = 3;
+}
+
+message Step {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+  bool is_challenge = 4;
+  string type = 5;
+  string object_name = 6;
+  string presigned_url = 7;
+  int64 created_at = 8;
+  uint64 ref_target_id = 9;
+  string teacher_comment = 10;
+  string parent_comment = 11;
+  string friend_comment = 12;
+}
+
+message GetTargetTreeRequest {
+  uint64 id = 1;
+}
+
+message GetTargetTreeReply {
+  Target root_target = 1;
+}
+
+message AddTargetDirStepRequest {
+  uint64 id = 1;
+  string title = 2;
+}
+
+message AddTargetDirStepReply {
+  uint64 id = 1;
+  string object_name = 2;
+}
+
+message GetTargetDirStepChildrenRequest {
+  uint64 id = 1;
+  uint32 page = 2;
+  uint32 page_size = 3;
+}
+
+message GetTargetDirStepChildrenReply {
+  uint64 total = 1;
+  repeated Step steps = 2;
+}
+
+message UpdateTargetStepRequest {
+  uint64 id = 1;
+  string title = 2;
+  string description = 3;
+  google.protobuf.BoolValue is_challenge = 4;
+  string type = 5;
+}
+
+message UpdateTargetStepReply {
+  uint64 id = 1;
+}
+
+message DeleteTargetStepRequest {
+  uint64 id = 1;
+}
+
+message DeleteTargetStepReply {
+  uint64 id = 1;
+}
+
+message EncryptRequest {
+  uint64 id = 1;
+  string data = 2;
+}
+
+message EncryptReply {
+  string data = 1;
+}
+
+service PortraitService {
+  rpc GetPortraitBasic(GetPortraitBasicRequest) returns (GetPortraitBasicReply) {
+    option (google.api.http) = {
+      get: "/portrait/basic"
+    };
+  }
+
+  rpc GetPortraitStepRate(GetPortraitStepRateRequest) returns (GetPortraitStepRateReply) {
+    option (google.api.http) = {
+      get: "/portrait/step_rate"
+    };
+  }
+}
+
+message GetPortraitBasicRequest {
+  string dimension = 1;
+}
+
+message GetPortraitBasicReply {
+  // basic, self_discipline, target_and_execution, learning_and_growth
+  string dimension = 1;
+  // json string
+  string value = 2;
+}
+
+message GetPortraitStepRateRequest {
+  uint64 top_target_id = 1;
+  // day, week, month
+  string stat_unit = 2;
+  // format: 2025-01-01
+  string start_date = 3;
+  // format: 2025-01-01
+  string end_date = 4;
+}
+
+message GetPortraitStepRateReply {
+  uint64 top_target_id = 1;
+  string stat_unit = 2;
+  // json string
+  string value = 4;
+}
+
+service FeedbackService {
+  rpc GetFeedbackAwards(GetFeedbackAwardsRequest) returns (GetFeedbackAwardsReply) {
+    option (google.api.http) = {
+      get: "/feedback/awards"
+    };
+  }
+
+  rpc GetFeedbackAward(GetFeedbackAwardRequest) returns (GetFeedbackAwardReply) {
+    option (google.api.http) = {
+      get: "/feedback/award/{id}"
+    };
+  }
+
+  rpc DeleteFeedbackAward(DeleteFeedbackAwardRequest) returns (DeleteFeedbackAwardReply) {
+    option (google.api.http) = {
+      delete: "/feedback/award/{id}"
+    };
+  }
+}
+
+message GetFeedbackAwardsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string status = 3;
+  string setted_start_date = 4;
+  string setted_end_date = 5;
+}
+
+message GetFeedbackAwardsReply {
+  uint64 total = 1;
+  repeated FeedbackAward awards = 2;
+}
+
+message GetFeedbackAwardRequest {
+  uint64 id = 1;
+}
+
+message GetFeedbackAwardReply {
+  FeedbackAward award = 1;
+}
+
+message FeedbackAward {
+  uint64 id = 1;
+  string status = 2;
+  string description = 3;
+  repeated string setted_files = 4;
+  repeated string realized_files = 5;
+  string target_type = 6;
+  string scope = 7;
+  string dimension = 8;
+  int32 threshold = 9;
+  int64 setted_at = 10;
+  int64 achieved_at = 11;
+  int64 realized_at = 12;
+}
+
+message DeleteFeedbackAwardRequest {
+  uint64 id = 1;
+}
+
+message DeleteFeedbackAwardReply {
+  uint64 id = 1;
+}

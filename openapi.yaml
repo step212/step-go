@@ -1,0 +1,854 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Step Service API
+    version: "1.0"
+paths:
+    /apis/step-go-noauth/step/{id}:
+        get:
+            tags:
+                - StepNoauthService
+            operationId: StepNoauthService_GetNoauthStep
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: shareTo
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetNoauthStepReply'
+    /apis/step-go-noauth/step/{id}/comment:
+        post:
+            tags:
+                - StepNoauthService
+            operationId: StepNoauthService_SetCommentForStep
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.SetCommentForStepRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.SetCommentForStepReply'
+    /apis/step-go-noauth/step/{id}/decrypt:
+        post:
+            tags:
+                - StepNoauthService
+            operationId: StepNoauthService_Decrypt
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.DecryptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.DecryptReply'
+    /feedback/award/{id}:
+        get:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_GetFeedbackAward
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetFeedbackAwardReply'
+        delete:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_DeleteFeedbackAward
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.DeleteFeedbackAwardReply'
+    /feedback/awards:
+        get:
+            tags:
+                - FeedbackService
+            operationId: FeedbackService_GetFeedbackAwards
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  schema:
+                    type: string
+                - name: settedStartDate
+                  in: query
+                  schema:
+                    type: string
+                - name: settedEndDate
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetFeedbackAwardsReply'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /minio/presigned/download_url:
+        get:
+            tags:
+                - Minio
+            operationId: Minio_GetDownloadPreSignedUrl
+            parameters:
+                - name: download_key
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/minio.v1.GetDownloadPreSignedUrlReply'
+    /minio/presigned/upload_url:
+        get:
+            tags:
+                - Minio
+            operationId: Minio_GetUploadPreSignedUrl
+            parameters:
+                - name: upload_key
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/minio.v1.GetUploadPreSignedUrlReply'
+    /portrait/basic:
+        get:
+            tags:
+                - PortraitService
+            operationId: PortraitService_GetPortraitBasic
+            parameters:
+                - name: dimension
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetPortraitBasicReply'
+    /portrait/step_rate:
+        get:
+            tags:
+                - PortraitService
+            operationId: PortraitService_GetPortraitStepRate
+            parameters:
+                - name: topTargetId
+                  in: query
+                  schema:
+                    type: string
+                - name: statUnit
+                  in: query
+                  description: day, week, month
+                  schema:
+                    type: string
+                - name: startDate
+                  in: query
+                  description: 'format: 2025-01-01'
+                  schema:
+                    type: string
+                - name: endDate
+                  in: query
+                  description: 'format: 2025-01-01'
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetPortraitStepRateReply'
+    /step/{id}:
+        put:
+            tags:
+                - StepService
+            description: 修改积累
+            operationId: StepService_UpdateTargetStep
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.UpdateTargetStepRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.UpdateTargetStepReply'
+        delete:
+            tags:
+                - StepService
+            description: 删除积累
+            operationId: StepService_DeleteTargetStep
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.DeleteTargetStepReply'
+    /step/{id}/dir_children:
+        get:
+            tags:
+                - StepService
+            description: 获取目录类型积累的子积累
+            operationId: StepService_GetTargetDirStepChildren
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetTargetDirStepChildrenReply'
+    /step/{id}/encrypt:
+        post:
+            tags:
+                - StepService
+            operationId: StepService_Encrypt
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.EncryptRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.EncryptReply'
+    /target:
+        post:
+            tags:
+                - StepService
+            operationId: StepService_CreateTarget
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.CreateTargetRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.CreateTargetReply'
+    /target/{id}:
+        get:
+            tags:
+                - StepService
+            description: 获取目标及目标下的积累
+            operationId: StepService_GetTarget
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: withSteps
+                  in: query
+                  schema:
+                    type: boolean
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetTargetReply'
+        put:
+            tags:
+                - StepService
+            operationId: StepService_UpdateTarget
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.UpdateTargetRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.UpdateTargetReply'
+        delete:
+            tags:
+                - StepService
+            description: 删除目标下子目标以及目标下的积累
+            operationId: StepService_DeleteTarget
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.DeleteTargetReply'
+    /target/{id}/dir:
+        post:
+            tags:
+                - StepService
+            description: 添加目标积累(for dir)
+            operationId: StepService_AddTargetDirStep
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.AddTargetDirStepRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.AddTargetDirStepReply'
+    /target/{id}/done:
+        post:
+            tags:
+                - StepService
+            description: 完成目标
+            operationId: StepService_DoneTarget
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/step.v1.DoneTargetRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.DoneTargetReply'
+    /target/{id}/tree:
+        get:
+            tags:
+                - StepService
+            description: 获取目标树
+            operationId: StepService_GetTargetTree
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetTargetTreeReply'
+    /targets:
+        get:
+            tags:
+                - StepService
+            description: 获取目标列表
+            operationId: StepService_GetTargets
+            parameters:
+                - name: parentId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/step.v1.GetTargetsReply'
+components:
+    schemas:
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+        minio.v1.GetDownloadPreSignedUrlReply:
+            type: object
+            properties:
+                url:
+                    type: string
+        minio.v1.GetUploadPreSignedUrlReply:
+            type: object
+            properties:
+                url:
+                    type: string
+        step.v1.AddTargetDirStepReply:
+            type: object
+            properties:
+                id:
+                    type: string
+                objectName:
+                    type: string
+        step.v1.AddTargetDirStepRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+        step.v1.CreateTargetReply:
+            type: object
+            properties:
+                id:
+                    type: string
+                layer:
+                    type: integer
+                    format: uint32
+        step.v1.CreateTargetRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                type:
+                    type: string
+                parentId:
+                    type: string
+        step.v1.DecryptReply:
+            type: object
+            properties:
+                data:
+                    type: string
+        step.v1.DecryptRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                data:
+                    type: string
+        step.v1.DeleteFeedbackAwardReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.DeleteTargetReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.DeleteTargetStepReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.DoneTargetReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.DoneTargetRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.EncryptReply:
+            type: object
+            properties:
+                data:
+                    type: string
+        step.v1.EncryptRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                data:
+                    type: string
+        step.v1.FeedbackAward:
+            type: object
+            properties:
+                id:
+                    type: string
+                status:
+                    type: string
+                description:
+                    type: string
+                settedFiles:
+                    type: array
+                    items:
+                        type: string
+                realizedFiles:
+                    type: array
+                    items:
+                        type: string
+                targetType:
+                    type: string
+                scope:
+                    type: string
+                dimension:
+                    type: string
+                threshold:
+                    type: integer
+                    format: int32
+                settedAt:
+                    type: string
+                achievedAt:
+                    type: string
+                realizedAt:
+                    type: string
+        step.v1.GetFeedbackAwardReply:
+            type: object
+            properties:
+                award:
+                    $ref: '#/components/schemas/step.v1.FeedbackAward'
+        step.v1.GetFeedbackAwardsReply:
+            type: object
+            properties:
+                total:
+                    type: string
+                awards:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.FeedbackAward'
+        step.v1.GetNoauthStepReply:
+            type: object
+            properties:
+                targetTitle:
+                    type: string
+                targetDescription:
+                    type: string
+                step:
+                    $ref: '#/components/schemas/step.v1.Step'
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.Step'
+        step.v1.GetPortraitBasicReply:
+            type: object
+            properties:
+                dimension:
+                    type: string
+                    description: basic, self_discipline, target_and_execution, learning_and_growth
+                value:
+                    type: string
+                    description: json string
+        step.v1.GetPortraitStepRateReply:
+            type: object
+            properties:
+                topTargetId:
+                    type: string
+                statUnit:
+                    type: string
+                value:
+                    type: string
+                    description: json string
+        step.v1.GetTargetDirStepChildrenReply:
+            type: object
+            properties:
+                total:
+                    type: string
+                steps:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.Step'
+        step.v1.GetTargetReply:
+            type: object
+            properties:
+                target:
+                    $ref: '#/components/schemas/step.v1.Target'
+                total:
+                    type: string
+                steps:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.Step'
+        step.v1.GetTargetTreeReply:
+            type: object
+            properties:
+                rootTarget:
+                    $ref: '#/components/schemas/step.v1.Target'
+        step.v1.GetTargetsReply:
+            type: object
+            properties:
+                targets:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.Target'
+        step.v1.SetCommentForStepReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.SetCommentForStepRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                type:
+                    type: string
+                    description: teacher, parent, friend
+                comment:
+                    type: string
+        step.v1.Step:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                isChallenge:
+                    type: boolean
+                type:
+                    type: string
+                objectName:
+                    type: string
+                presignedUrl:
+                    type: string
+                createdAt:
+                    type: string
+                refTargetId:
+                    type: string
+                teacherComment:
+                    type: string
+                parentComment:
+                    type: string
+                friendComment:
+                    type: string
+        step.v1.Target:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                type:
+                    type: string
+                createdAt:
+                    type: string
+                startAt:
+                    type: string
+                challengeAt:
+                    type: string
+                doneAt:
+                    type: string
+                layer:
+                    type: integer
+                    format: uint32
+                status:
+                    type: string
+                targetParent:
+                    type: string
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/step.v1.Target'
+        step.v1.UpdateTargetReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.UpdateTargetRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+        step.v1.UpdateTargetStepReply:
+            type: object
+            properties:
+                id:
+                    type: string
+        step.v1.UpdateTargetStepRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                isChallenge:
+                    type: boolean
+                type:
+                    type: string
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+security:
+    - bearerAuth: []
+tags:
+    - name: FeedbackService
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Minio
+    - name: PortraitService
+    - name: StepNoauthService
+    - name: StepService

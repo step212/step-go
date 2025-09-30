@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  backend-step212:
+    build:
+      context: ../
+      dockerfile: deploy/Dockerfile
+    image: docker.domain/backend-step212:v2.0.18
+    platform: linux/amd64
+    pull_policy: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - /conf_dir/backend-step212:/data/conf
+    command: ["./step", "-conf", "/data/conf/config.yaml"]
